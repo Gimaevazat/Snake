@@ -63,10 +63,9 @@ def doMove():
   obj = polyline(list)
 
 def eating():
-  global Xe, Ye, eat, i, A, B
+  global Xe, Ye, eat, i, A, B, sqore, Sqore
   deleteObject(eat)
-  dL = 0
-  if (x <= Xe + 7) and (x >= Xe - 1) and (y >= Ye - 1) and (y <= Ye + 7):
+  if (x <= Xe + 8) and (x >= Xe - 3) and (y >= Ye - 3) and (y <= Ye + 8):
     Xe = random.randint(0, 490)
     Ye = random.randint(0, 590)
     i = len(list) - 1
@@ -74,17 +73,19 @@ def eating():
     B = list[i - 1]
     if A[0] == B[0]:
       if A[1] > B[1]:
-        list[i] = (A[0], A[1] + 2)
+        list[i] = (A[0], A[1] + 20)
       else:
-        list[i] = (A[0], A[1] - 2)
+        list[i] = (A[0], A[1] - 20)
     else:
       if A[0] > B[0]:
-        list[i] = (A[0] + 2, A[1])
+        list[i] = (A[0] + 20, A[1])
       else:
-        list[i] = (A[0] - 2, A[1])
+        list[i] = (A[0] - 20, A[1])
+    sqore += 1
   penColor("red")
   brushColor("red")
   eat = rectangle(Xe, Ye, Xe + 6, Ye + 6)
+  Sqore = label (sqore, 45, 5, bg="blue", fg="red")
 
 def wall ():
   global dx, dy, x, y, V
@@ -103,6 +104,7 @@ def wall ():
 
 V = 0
 L = 100
+sqore = 0
 Xe = random.randint(0,500)
 Ye = random.randint(0,600)
 print(Xe,Ye)
@@ -117,6 +119,9 @@ list = [(x, y),(x + L , y)]
 obj = polyline(list)
 brushColor("red")
 eat = rectangle(Xe, Ye, Xe + 20, Ye + 20)
+label("Sqore :", 5, 5, bg = "blue", fg = "red")
+Sqore = label (sqore, 45, 5, bg = "blue", fg = "red")
+
 
 onKey(keyPressed)
 onTimer(wall, 100)
