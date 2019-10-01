@@ -1,6 +1,8 @@
 from graph import *
 import random
 
+#скорость змеи в зависимости от нажатой кнопки
+#При нажатии кнопки змея поворачивает, и в это время в list заносится пара головы(это же пара поворота). Эта пара заносится сразу после пары головы
 def keyPressed(event):
   global dx, dy, V, x, y
   if (event.keycode == VK_LEFT) and (head_check(1) is True):
@@ -25,8 +27,10 @@ def keyPressed(event):
   elif event.keycode == VK_ESCAPE:
     close()
 
+#отрисовка змеи
 def doMove():
   global dx, dy, obj, x, y, V
+  #удаление старой змеи
   deleteObject(obj)
   if wall(1) is True:
     dx = V = 0
@@ -38,15 +42,18 @@ def doMove():
     dy = V = 0
   x += dx
   y += dy
+  #установка нового положения головы
   list[0] = (x, y)
+  #i - номер конца змеи в массиве
   i = len(list) - 1
   A = list[i]
   B = list[i - 1]
-  if A[0] >= B[0] - V and A[0] <= B[0] + V and A[1] >= B[1] - V and A[1] <= B[1] + V :
+  if A[0] >= B[0] - V and A[0] <= B[0] + V and A[1] >= B[1] - V and A[1] <= B[1] + V : #если конец совпал с первым поворотом, то удаляем первый поворот
     list.pop()
     i -= 1
     A = list[i]
     B = list[i - 1]
+    #без следующих условий конец догонял голову
     if A[0] == B[0]:
       if A[1] > B[1]:
         list[i] = (A[0], A[1] + V)
@@ -58,6 +65,7 @@ def doMove():
       else:
         list[i] = (A[0] - V, A[1])
     A = list[i]
+  #движение конца в сторону первого поворота
   if A[0] == B[0]:
     if A[1] > B[1]:
       list[i] = ( A[0], A[1] - V)
@@ -67,6 +75,7 @@ def doMove():
       list[i] = (A[0] - V, A[1])
     else:
       list[i] = (A[0] + V, A[1])
+  #отрисовка новой змеи
   penColor("green")
   obj = polyline(list)
 
